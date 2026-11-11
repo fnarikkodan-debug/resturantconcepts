@@ -1,0 +1,140 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* Base: dark forest */
+  --color-bg: #0b0f0c;
+  --color-forest: #13241a;
+  --color-moss: #1e3a28;
+  --color-mist: #e9e4d8;
+  --color-gold: #c2a15a;
+
+  /* The four ripeness stages of the pepper berry (fills) */
+  --color-ripe-green: #6e9f3a;
+  --color-ripe-orange: #d9822b;
+  --color-ripe-red: #b5302a;
+  --color-ripe-black: #1a1412;
+
+  /* Lighter tints of the same stages, for text on dark */
+  --color-leaf: #8fbf55;
+  --color-ember: #e59a45;
+  --color-berry: #e0584d;
+
+  --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--color-bg);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-mist);
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: var(--color-ripe-green);
+  color: var(--color-bg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
+/* Small uppercase label used above headings */
+.eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+
+/* Fine film grain over the whole page */
+.grain {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* Drifting mist layers in the hero */
+.mist-layer {
+  position: absolute;
+  inset: -20% -40%;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 40% 28% at 22% 62%, rgb(233 228 216 / 0.16), transparent 70%),
+    radial-gradient(ellipse 34% 22% at 68% 44%, rgb(233 228 216 / 0.12), transparent 70%),
+    radial-gradient(ellipse 50% 26% at 48% 82%, rgb(233 228 216 / 0.1), transparent 72%);
+  filter: blur(24px);
+  animation: mist-drift 70s linear infinite alternate;
+}
+
+.mist-layer--slow {
+  animation-duration: 110s;
+  animation-direction: alternate-reverse;
+  opacity: 0.7;
+  transform: scaleX(-1);
+}
+
+@keyframes mist-drift {
+  from {
+    translate: -8% 0;
+  }
+  to {
+    translate: 8% -3%;
+  }
+}
+
+@keyframes slow-zoom {
+  from {
+    scale: 1;
+  }
+  to {
+    scale: 1.08;
+  }
+}
+
+.slow-zoom {
+  animation: slow-zoom 40s ease-out forwards;
+}
+
+@keyframes cue {
+  0%,
+  100% {
+    translate: 0 0;
+    opacity: 0.4;
+  }
+  50% {
+    translate: 0 8px;
+    opacity: 1;
+  }
+}
+
+.scroll-cue {
+  animation: cue 2.8s ease-in-out infinite;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .mist-layer,
+  .slow-zoom,
+  .scroll-cue {
+    animation: none;
+  }
+}
